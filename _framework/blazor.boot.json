@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Nikolei.Blog",
   "resources": {
-    "hash": "sha256-DZEUaGauTdJS91JW1hBEMONcdxfeiKG1QbHoLIBIKw8=",
+    "hash": "sha256-l7AWfKd1a/xhMDBSUhY/9Sz1pIcNYoe68MvE1wvGfSs=",
     "fingerprinting": {
       "Microsoft.AspNetCore.Components.g2uf8wsg0m.wasm": "Microsoft.AspNetCore.Components.wasm",
       "Microsoft.AspNetCore.Components.Web.5fnpqqr84r.wasm": "Microsoft.AspNetCore.Components.Web.wasm",
@@ -17,7 +17,7 @@
       "Microsoft.Extensions.Primitives.geznw6vy35.wasm": "Microsoft.Extensions.Primitives.wasm",
       "Microsoft.JSInterop.bdr89uoxtd.wasm": "Microsoft.JSInterop.wasm",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "Microsoft.JSInterop.WebAssembly.wasm",
-      "Nikolei.Blog.ol4ygst6dg.wasm": "Nikolei.Blog.wasm",
+      "Nikolei.Blog.c1ba30z9ve.wasm": "Nikolei.Blog.wasm",
       "System.Collections.Concurrent.3ehu1bcyg6.wasm": "System.Collections.Concurrent.wasm",
       "System.Collections.Immutable.i5mojijpem.wasm": "System.Collections.Immutable.wasm",
       "System.Collections.h351ju0jme.wasm": "System.Collections.wasm",
@@ -78,7 +78,7 @@
       "Microsoft.Extensions.Primitives.geznw6vy35.wasm": "sha256-+HoDX+e0bGwi8OjZvR5ZpN4OxMMBE8OX4f2wu++wdqE=",
       "Microsoft.JSInterop.bdr89uoxtd.wasm": "sha256-j93883TLWrUsylBnXBVb1aCW34uImOVFvkmgV7v8tx0=",
       "Microsoft.JSInterop.WebAssembly.p386u0jty9.wasm": "sha256-hbzWuXrlepIqY/y+nQ2ZAFer2/njy1dc+Y4LUaAaL5E=",
-      "Nikolei.Blog.ol4ygst6dg.wasm": "sha256-zJsTaMCZQjlAA4dWcQ+m66hWB4kKbn4uK/vMufviqeE=",
+      "Nikolei.Blog.c1ba30z9ve.wasm": "sha256-oFZF58CWLpfFomvsRbqb25WosGtmg+iDtQHZ6cmAucU=",
       "System.Collections.Concurrent.3ehu1bcyg6.wasm": "sha256-dV96G/HF1YeoQHWb7qAz79rlxBOm2/Tq24EUOLmfEew=",
       "System.Collections.Immutable.i5mojijpem.wasm": "sha256-2o7/1luHPNvyJ3F18KOhwDGsQt+YpN+yd+WoIxuEvXo=",
       "System.Collections.h351ju0jme.wasm": "sha256-80T8X4pq9mebowrULraE5OiWQ/iqnNBW6MOhDixGs30=",
