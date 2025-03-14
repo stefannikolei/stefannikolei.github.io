@@ -36,5 +36,8 @@
       <_ContentIncludedByDefault Remove="Components\Svg.razor" />
       <_ContentIncludedByDefault Remove="Components\_Imports.razor" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
 
 </Project>
