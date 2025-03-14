@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
 
-job:
+jobs:
   deploy-to-github-pages:
     runs-on: ubuntu-latest
     steps:
