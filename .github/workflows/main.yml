@@ -1,27 +1,49 @@
-name: Deploy to GitHub Pages
 
-# Run workflow on every push to master branch
+name: Build, publish to gh pages and nuget
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
+env:
+  WEBAPP_PATH: Nikolei.Blog
+  WEBAPP_CSPROJ: Nikolei.Blog.csproj
+  ASPNETCORE_ENVIRONMENT: Production
 
 jobs:
-  deploy-to-github-pages:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      webapp-path: ${{ env.WEBAPP_PATH }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+    
+      - name: Run webapp and generate static files
+        run: dotnet run --project ${{ env.WEBAPP_PATH }}/${{env.WEBAPP_CSPROJ}}  --configuration Release
+
+      - name: Upload webapp output artifacts
+        uses: actions/upload-artifact@v4
+        with:
+            name: static-pages-output
+            path: ${{ env.WEBAPP_PATH }}/output
+
+
+  deploy-to-gh-pages:
+    permissions:
+      contents: write
+    needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    
-    - name: Run webapp and generate static files
-      run: dotnet run --project Nikolei.Blog/Nikolei.Blog.csproj  --configuration Release
-
-    - name: Upload webapp output artifacts
-      uses: actions/upload-artifact@v4
-      with:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
           name: static-pages-output
-          path: Nikolei.Blog/output
-
+          path: output
+      - run: touch output/.nojekyll #folder starting with _ are handled as jekyll. This file will prevent that.
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./output
