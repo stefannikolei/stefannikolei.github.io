@@ -17,3 +17,10 @@ jobs:
         dotnet-version: 9.0.x
     - name: Publish .NET Core Project
       run: dotnet publish Nikolei.Blog/Nikolei.Blog.csproj -c Release -o release --nologo
+
+    - name: Commit wwwroot to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: release/wwwroot
