@@ -1,11 +1,45 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.FileProviders;
 using Nikolei.Blog;
+using Nikolei.Blog.Components;
+using StaticLib;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.WebHost.UseStaticWebAssets();
 
-await builder.Build().RunAsync();
+builder.Services.AddBlazorStaticService(opt => {
+        //opt. //check to change the defaults
+    }
+).AddBlazorStaticContentService<BlogFrontMatter>();
+
+builder.Services.AddRazorComponents();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if(!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>();
+
+app.UseBlazorStaticGenerator(shutdownApp: !app.Environment.IsDevelopment());
+
+app.Run();
+
+public static class WebsiteKeys
+{
+    public const string GitHubRepo = "https://github.com/BlazorStatic/BlazorStaticMinimalBlog";
+    public const string X = "https://x.com/";
+    public const string Title = "BlazorStatic Minimal Blog";
+    public const string BlogPostStorageAddress = $"{GitHubRepo}/tree/main/Content/Blog";
+    public const string BlogLead = "Sample blog created with BlazorStatic and TailwindCSS";
+}

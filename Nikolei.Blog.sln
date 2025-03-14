@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nikolei.Blog", "Nikolei.Blog\Nikolei.Blog.csproj", "{4FF6209A-7698-4CBE-B566-295D8FBE7C3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticLib", "StaticLib\StaticLib.csproj", "{CF1B5758-111B-4495-B8AD-F810F59B3CD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{4FF6209A-7698-4CBE-B566-295D8FBE7C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FF6209A-7698-4CBE-B566-295D8FBE7C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FF6209A-7698-4CBE-B566-295D8FBE7C3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1B5758-111B-4495-B8AD-F810F59B3CD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1B5758-111B-4495-B8AD-F810F59B3CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1B5758-111B-4495-B8AD-F810F59B3CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1B5758-111B-4495-B8AD-F810F59B3CD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
