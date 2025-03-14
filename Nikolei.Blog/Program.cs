@@ -1,5 +1,4 @@
-using Microsoft.Extensions.FileProviders;
-using Nikolei.Blog;
+
 using Nikolei.Blog.Components;
 using StaticLib;
 
@@ -37,7 +36,7 @@ app.Run();
 
 public static class WebsiteKeys
 {
-    public const string GitHubRepo = "https://github.com/BlazorStatic/BlazorStaticMinimalBlog";
+    public const string GitHubRepo = "https://github.com/BlazorStatic/MyBlazorStaticApp";
     public const string X = "https://x.com/";
     public const string Title = "BlazorStatic Minimal Blog";
     public const string BlogPostStorageAddress = $"{GitHubRepo}/tree/main/Content/Blog";
