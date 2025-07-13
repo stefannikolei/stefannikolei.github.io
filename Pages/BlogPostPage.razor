@@ -146,7 +146,8 @@ else if (post != null)
         border-radius: 0.5rem;
     }
     
-    .post-content pre {
+    /* Style for non-highlighted code blocks only */
+    .post-content pre:not([class*="language-"]) {
         background: rgba(0, 0, 0, 0.05);
         padding: 1.5rem;
         border-radius: 0.75rem;
@@ -157,7 +158,8 @@ else if (post != null)
         line-height: 1.4;
     }
     
-    .post-content code {
+    /* Inline code styling (not in pre blocks) */
+    .post-content :not(pre) > code:not([class*="language-"]) {
         background: rgba(0, 0, 0, 0.1);
         padding: 0.2rem 0.4rem;
         border-radius: 0.25rem;
@@ -165,9 +167,17 @@ else if (post != null)
         font-size: 0.9em;
     }
     
-    .post-content pre code {
-        background: none;
-        padding: 0;
+    /* Ensure highlighted code blocks use Prism styling */
+    .post-content pre[class*="language-"] {
+        /* Let Prism handle all styling for highlighted code blocks */
+        margin: 1.5rem 0;
+    }
+    
+    .post-content pre[class*="language-"] code {
+        /* Reset any overrides for highlighted code */
+        background: none !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
     }
     
     .post-footer {
