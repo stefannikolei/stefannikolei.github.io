@@ -158,21 +158,35 @@ public class BlogPostService
 
     private string RemoveFirstH1Heading(string markdownContent)
     {
-        // Remove the first H1 heading (# ) from the beginning of the content
+        // Remove the first H1 heading (# ) only if it appears at the beginning of the content
         // This prevents duplicate headings since we display the title from front matter
         var lines = markdownContent.Split('\n');
         var resultLines = new List<string>();
-        bool firstH1Found = false;
+        bool contentStarted = false;
 
         foreach (var line in lines)
         {
             var trimmedLine = line.Trim();
             
-            // Skip the first H1 heading we encounter
-            if (!firstH1Found && trimmedLine.StartsWith("# "))
+            // If we haven't found any content yet
+            if (!contentStarted)
             {
-                firstH1Found = true;
-                continue;
+                // Skip empty lines at the beginning
+                if (string.IsNullOrWhiteSpace(trimmedLine))
+                {
+                    resultLines.Add(line);
+                    continue;
+                }
+                
+                // If the first non-empty line is an H1 heading, skip it
+                if (trimmedLine.StartsWith("# "))
+                {
+                    contentStarted = true;
+                    continue;
+                }
+                
+                // If the first non-empty line is not an H1, mark content as started
+                contentStarted = true;
             }
             
             resultLines.Add(line);
