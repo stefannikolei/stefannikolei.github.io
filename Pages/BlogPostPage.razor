@@ -214,6 +214,15 @@ else if (post != null)
         await LoadPost();
     }
     
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Only trigger syntax highlighting after the content has been rendered
+        if (post != null && !isLoading)
+        {
+            await TriggerPrismHighlighting();
+        }
+    }
+    
     private async Task LoadPost()
     {
         if (string.IsNullOrEmpty(Slug))
@@ -235,18 +244,15 @@ else if (post != null)
             isLoading = false;
         }
         
-        // Trigger Prism highlighting after the content is rendered
-        if (post != null)
-        {
-            await Task.Delay(100); // Small delay to ensure DOM is updated
-            await TriggerPrismHighlighting();
-        }
+        // StateHasChanged will trigger OnAfterRenderAsync where we'll do syntax highlighting
     }
     
     private async Task TriggerPrismHighlighting()
     {
         try
         {
+            // Add a small delay to ensure DOM is fully ready
+            await Task.Delay(100);
             await JSRuntime.InvokeVoidAsync("SimpleSyntaxHighlighter.highlightAll");
         }
         catch (Exception ex)
