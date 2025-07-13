@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Markdig;
+using Markdig.SyntaxHighlighting;
 using TechBlog.Models;
 
 namespace TechBlog.Services;
@@ -16,6 +17,7 @@ public class BlogPostService
         _httpClient = httpClient;
         _markdownPipeline = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
+            .UseSyntaxHighlighting()
             .Build();
     }
 
