@@ -49,6 +49,11 @@ jobs:
       uses: rossjrw/pr-preview-action@v1
       with:
         source-dir: dist/wwwroot
+        preview-branch: gh-pages
+        umbrella-dir: pr-previews
+        action: auto
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
