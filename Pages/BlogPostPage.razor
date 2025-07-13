@@ -1,6 +1,7 @@
 @page "/blog/{slug}"
 @inject BlogPostService BlogPostService
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
 @if (post == null && !isLoading)
 {
@@ -232,6 +233,25 @@ else if (post != null)
         finally
         {
             isLoading = false;
+        }
+        
+        // Trigger Prism highlighting after the content is rendered
+        if (post != null)
+        {
+            await Task.Delay(100); // Small delay to ensure DOM is updated
+            await TriggerPrismHighlighting();
+        }
+    }
+    
+    private async Task TriggerPrismHighlighting()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("SimpleSyntaxHighlighter.highlightAll");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error triggering syntax highlighting: {ex.Message}");
         }
     }
 }
