@@ -1,0 +1,161 @@
+@page "/impressum"
+
+<PageTitle>Impressum - Stefan Nikolei Tech Blog</PageTitle>
+
+<div class="hero-card">
+    <h1>⚖️ Impressum</h1>
+    <p>Angaben gemäß § 5 TMG (Telemediengesetz)</p>
+</div>
+
+<div class="legal-content">
+    <div class="card">
+        <h2>Verantwortlich für den Inhalt</h2>
+        <div class="contact-info">
+            <p><strong>Stefan Nikolei</strong></p>
+            <p>Software-Entwickler</p>
+            <p>Deutschland</p>
+        </div>
+        
+        <h3>Kontakt</h3>
+        <p>
+            E-Mail: Verfügbar über 
+            <a href="https://github.com/stefannikolei" target="_blank" rel="noopener" class="github-link">
+                GitHub <span class="external-icon">↗</span>
+            </a>
+        </p>
+    </div>
+    
+    <div class="card">
+        <h2>Haftungsausschluss</h2>
+        
+        <h3>Haftung für Inhalte</h3>
+        <p>
+            Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den 
+            allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht 
+            unter der Verpflichtung, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach 
+            Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+            Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen 
+            Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt 
+            der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden 
+            Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        </p>
+        
+        <h3>Haftung für Links</h3>
+        <p>
+            Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. 
+            Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der 
+            verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die 
+            verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. 
+            Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar.
+        </p>
+        <p>
+            Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte 
+            einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige 
+            Links umgehend entfernen.
+        </p>
+        
+        <h3>Urheberrecht</h3>
+        <p>
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen 
+            Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der 
+            Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. 
+            Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+        </p>
+        <p>
+            Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte 
+            Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem 
+            auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei 
+            Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+        </p>
+    </div>
+    
+    <div class="card">
+        <h2>Technische Umsetzung</h2>
+        <p>
+            Diese Website wird über GitHub Pages gehostet und nutzt Blazor WebAssembly. 
+            Der Quellcode ist öffentlich verfügbar auf 
+            <a href="https://github.com/stefannikolei/stefannikolei.github.io" target="_blank" rel="noopener" class="github-link">
+                GitHub <span class="external-icon">↗</span>
+            </a>.
+        </p>
+    </div>
+</div>
+
+<style>
+    .legal-content {
+        display: grid;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+    
+    .contact-info {
+        background: rgba(102, 126, 234, 0.05);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        border-left: 4px solid #667eea;
+        margin: 1rem 0;
+    }
+    
+    .contact-info p {
+        margin: 0.5rem 0;
+    }
+    
+    .contact-info strong {
+        color: #2d3748;
+    }
+    
+    .legal-content h2 {
+        color: #2d3748;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        padding-bottom: 0.5rem;
+    }
+    
+    .legal-content h3 {
+        color: #4a5568;
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.1rem;
+    }
+    
+    .legal-content p {
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        color: #4a5568;
+    }
+    
+    .github-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-weight: 600;
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .github-link:hover {
+        color: #764ba2;
+        transform: translateY(-1px);
+    }
+    
+    .external-icon {
+        font-size: 0.8rem;
+        opacity: 0.7;
+    }
+    
+    @@media (max-width: 768px) {
+        .contact-info {
+            padding: 1rem;
+        }
+        
+        .legal-content h2 {
+            font-size: 1.3rem;
+        }
+        
+        .legal-content h3 {
+            font-size: 1.1rem;
+        }
+    }
+</style>
