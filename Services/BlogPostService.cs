@@ -1,29 +1,29 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Markdig;
-using Markdig.SyntaxHighlighting;
 using TechBlog.Models;
 
 namespace TechBlog.Services;
 
 /// <summary>
 /// MarkdownMonster-style Markdown processor that provides a simple, clean API
-/// for converting Markdown to HTML with syntax highlighting and common extensions.
+/// for converting Markdown to HTML with common extensions.
+/// Syntax highlighting is handled client-side by PrismJS.
 /// </summary>
 public static class MarkdownMonster
 {
     /// <summary>
     /// Parses markdown text to HTML using MarkdownMonster-style configuration.
-    /// Includes advanced extensions and syntax highlighting by default.
+    /// Includes advanced extensions. Syntax highlighting handled by PrismJS.
     /// </summary>
     /// <param name="markdown">The markdown text to parse</param>
     /// <returns>HTML string</returns>
     public static string Parse(string markdown)
     {
         // MarkdownMonster-style: Simple, direct API with sensible defaults
+        // Syntax highlighting handled client-side by PrismJS
         var pipeline = new MarkdownPipelineBuilder()
             .UseAdvancedExtensions()
-            .UseSyntaxHighlighting()
             .Build();
             
         return Markdown.ToHtml(markdown, pipeline);
