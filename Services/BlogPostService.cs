@@ -6,6 +6,30 @@ using TechBlog.Models;
 
 namespace TechBlog.Services;
 
+/// <summary>
+/// MarkdownMonster-style Markdown processor that provides a simple, clean API
+/// for converting Markdown to HTML with syntax highlighting and common extensions.
+/// </summary>
+public static class MarkdownMonster
+{
+    /// <summary>
+    /// Parses markdown text to HTML using MarkdownMonster-style configuration.
+    /// Includes advanced extensions and syntax highlighting by default.
+    /// </summary>
+    /// <param name="markdown">The markdown text to parse</param>
+    /// <returns>HTML string</returns>
+    public static string Parse(string markdown)
+    {
+        // MarkdownMonster-style: Simple, direct API with sensible defaults
+        var pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UseSyntaxHighlighting()
+            .Build();
+            
+        return Markdown.ToHtml(markdown, pipeline);
+    }
+}
+
 public class BlogPostService
 {
     private readonly HttpClient _httpClient;
@@ -83,13 +107,8 @@ public class BlogPostService
 
         var metadata = ParseFrontMatter(frontMatterYaml);
         
-        // MarkdownMonster-style configuration: inline pipeline creation with common extensions
-        var pipeline = new MarkdownPipelineBuilder()
-            .UseAdvancedExtensions()
-            .UseSyntaxHighlighting()
-            .Build();
-            
-        var htmlContent = Markdown.ToHtml(cleanedMarkdown, pipeline);
+        // MarkdownMonster-style: simple, clean API call
+        var htmlContent = MarkdownMonster.Parse(cleanedMarkdown);
 
         return new BlogPost
         {
