@@ -1,0 +1,237 @@
+@page "/blog/{slug}"
+@inject BlogPostService BlogPostService
+@inject NavigationManager Navigation
+
+@if (post == null && !isLoading)
+{
+    <PageTitle>Post nicht gefunden - Stefan Nikolei Tech Blog</PageTitle>
+    <div class="blog-post-container">
+        <div class="card">
+            <h1>🚫 Post nicht gefunden</h1>
+            <p>Der angeforderte Blog Post konnte nicht gefunden werden.</p>
+            <a href="/blog" class="btn btn-outline">← Zurück zur Blog-Übersicht</a>
+        </div>
+    </div>
+}
+else if (isLoading)
+{
+    <PageTitle>Lädt... - Stefan Nikolei Tech Blog</PageTitle>
+    <div class="blog-post-container">
+        <div class="card">
+            <p>Lade Blog Post...</p>
+        </div>
+    </div>
+}
+else if (post != null)
+{
+    <PageTitle>@post.Title - Stefan Nikolei Tech Blog</PageTitle>
+    
+    <div class="blog-post-container">
+        <article class="card blog-post">
+            <header class="post-header">
+                <h1>@post.Title</h1>
+                <div class="post-meta">
+                    <span>📅 @post.PublishDate.ToString("dd. MMMM yyyy")</span>
+                    @if (post.Tags.Any())
+                    {
+                        <span>📂 @string.Join(", ", post.Tags)</span>
+                    }
+                    <span>⏱️ @post.ReadingTimeMinutes Min. Lesezeit</span>
+                </div>
+            </header>
+            
+            <div class="post-content">
+                @((MarkupString)post.Content)
+            </div>
+            
+            <footer class="post-footer">
+                <a href="/blog" class="btn btn-outline">← Zurück zur Blog-Übersicht</a>
+            </footer>
+        </article>
+    </div>
+}
+
+<style>
+    .blog-post-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .blog-post {
+        margin-bottom: 2rem;
+    }
+    
+    .post-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .post-header h1 {
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+    }
+    
+    .post-meta {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+        color: #718096;
+        font-weight: 500;
+    }
+    
+    .post-content {
+        margin: 2rem 0;
+        line-height: 1.7;
+    }
+    
+    .post-content h2 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #2d3748;
+        border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        padding-bottom: 0.5rem;
+    }
+    
+    .post-content h3 {
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+        color: #4a5568;
+    }
+    
+    .post-content p {
+        margin-bottom: 1.5rem;
+        color: #4a5568;
+    }
+    
+    .post-content ul, .post-content ol {
+        margin-bottom: 1.5rem;
+        padding-left: 2rem;
+    }
+    
+    .post-content li {
+        margin-bottom: 0.5rem;
+        color: #4a5568;
+    }
+    
+    .post-content strong {
+        color: #2d3748;
+        font-weight: 600;
+    }
+    
+    .post-content a {
+        color: #667eea;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(102, 126, 234, 0.3);
+        transition: all 0.2s ease;
+    }
+    
+    .post-content a:hover {
+        color: #5a67d8;
+        border-bottom-color: #5a67d8;
+    }
+    
+    .post-content blockquote {
+        border-left: 4px solid #667eea;
+        padding-left: 1.5rem;
+        margin: 2rem 0;
+        font-style: italic;
+        color: #4a5568;
+        background: rgba(102, 126, 234, 0.05);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+    }
+    
+    .post-content pre {
+        background: rgba(0, 0, 0, 0.05);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .post-content code {
+        background: rgba(0, 0, 0, 0.1);
+        padding: 0.2rem 0.4rem;
+        border-radius: 0.25rem;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        font-size: 0.9em;
+    }
+    
+    .post-content pre code {
+        background: none;
+        padding: 0;
+    }
+    
+    .post-footer {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    @@media (max-width: 768px) {
+        .post-header h1 {
+            font-size: 2rem;
+        }
+        
+        .post-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .post-content {
+            margin: 1.5rem 0;
+        }
+        
+        .post-content pre {
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    }
+</style>
+
+@code {
+    [Parameter] public string Slug { get; set; } = "";
+    
+    private BlogPost? post;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPost();
+    }
+    
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadPost();
+    }
+    
+    private async Task LoadPost()
+    {
+        if (string.IsNullOrEmpty(Slug))
+            return;
+            
+        isLoading = true;
+        
+        try
+        {
+            post = await BlogPostService.GetPostAsync(Slug);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading post '{Slug}': {ex.Message}");
+            post = null;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
