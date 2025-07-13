@@ -1,36 +1,39 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Stefan Nikolei - Tech Blog</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿<nav class="modern-nav">
+    <div class="container">
+        <div class="nav-content">
+            <a href="" class="brand">
+                <span class="brand-icon">💻</span>
+                <span class="brand-text">Stefan Nikolei</span>
+            </a>
+            
+            <button class="mobile-toggle" @onclick="ToggleNavMenu" type="button">
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+                <span class="hamburger"></span>
+            </button>
+            
+            <div class="nav-menu @NavMenuCssClass">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="nav-icon">🏠</span>
+                    <span>Home</span>
+                </NavLink>
+                <NavLink class="nav-link" href="blog">
+                    <span class="nav-icon">📝</span>
+                    <span>Blog</span>
+                </NavLink>
+                <NavLink class="nav-link" href="about">
+                    <span class="nav-icon">👨‍💻</span>
+                    <span>About</span>
+                </NavLink>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="blog">
-                <span class="bi bi-journal-text-nav-menu" aria-hidden="true"></span> Blog Posts
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="about">
-                <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> About
-            </NavLink>
-        </div>
-    </nav>
-</div>
+</nav>
 
 @code {
     private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapsed" : "expanded";
 
     private void ToggleNavMenu()
     {
