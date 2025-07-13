@@ -70,23 +70,83 @@ window.SimpleSyntaxHighlighter = (function() {
         try {
             console.log('SimpleSyntaxHighlighter: Starting to highlight code blocks');
             
-            // Find all code blocks with language classes
-            const codeBlocks = document.querySelectorAll('pre code[class*="language-"]');
-            console.log('SimpleSyntaxHighlighter: Found', codeBlocks.length, 'code blocks');
+            // Find all possible code block structures
+            const preCodeBlocks = document.querySelectorAll('pre code[class*="language-"]');
+            const codeBlocks = document.querySelectorAll('code[class*="language-"]');
+            const preElements = document.querySelectorAll('pre');
+            const allCodeElements = document.querySelectorAll('code');
             
-            codeBlocks.forEach((block, index) => {
+            console.log('SimpleSyntaxHighlighter: Found', preCodeBlocks.length, 'pre > code blocks with language class');
+            console.log('SimpleSyntaxHighlighter: Found', codeBlocks.length, 'code blocks with language class');
+            console.log('SimpleSyntaxHighlighter: Found', preElements.length, 'pre elements');
+            console.log('SimpleSyntaxHighlighter: Found', allCodeElements.length, 'total code elements');
+            
+            // Debug: Log the structure of the first few code elements
+            allCodeElements.forEach((code, index) => {
+                if (index < 5) {
+                    console.log(`SimpleSyntaxHighlighter: Code element ${index}:`, {
+                        tagName: code.tagName,
+                        className: code.className,
+                        parentTagName: code.parentElement ? code.parentElement.tagName : null,
+                        parentClassName: code.parentElement ? code.parentElement.className : null,
+                        textContent: code.textContent.substring(0, 50) + '...',
+                        hasLanguageClass: code.className.includes('language-')
+                    });
+                }
+            });
+            
+            // Try to highlight any code blocks that look like they contain C# code
+            let highlightedCount = 0;
+            
+            // First try the standard structure
+            preCodeBlocks.forEach((block, index) => {
                 const className = block.className;
-                console.log('SimpleSyntaxHighlighter: Processing block', index, 'with class', className);
-                
                 if (className.includes('language-csharp') || className.includes('language-cs')) {
                     const originalCode = block.textContent;
                     const highlightedCode = highlightCSharp(originalCode);
                     block.innerHTML = highlightedCode;
-                    console.log('SimpleSyntaxHighlighter: Highlighted C# code block');
+                    highlightedCount++;
+                    console.log('SimpleSyntaxHighlighter: Highlighted pre>code C# block');
                 }
             });
             
-            console.log('SimpleSyntaxHighlighter: Completed highlighting');
+            // If no standard blocks found, try to identify C# code by content
+            if (highlightedCount === 0) {
+                allCodeElements.forEach((block, index) => {
+                    const text = block.textContent.trim();
+                    
+                    // Simple heuristic to detect C# code
+                    if (text.length > 50 && (
+                        text.includes('using System') ||
+                        text.includes('public class') ||
+                        text.includes('public interface') ||
+                        text.includes('namespace ') ||
+                        text.includes('public async Task') ||
+                        text.includes(': IRepository') ||
+                        text.includes('=> ') ||
+                        text.includes('?.')
+                    )) {
+                        console.log(`SimpleSyntaxHighlighter: Found C# code by heuristic in code element ${index}`);
+                        
+                        // Add language class and highlight
+                        block.className = (block.className + ' language-csharp').trim();
+                        const highlightedCode = highlightCSharp(text);
+                        block.innerHTML = highlightedCode;
+                        highlightedCount++;
+                        
+                        // Also style the parent as a code block if it's not already
+                        if (block.parentElement && block.parentElement.tagName !== 'PRE') {
+                            block.parentElement.style.display = 'block';
+                            block.parentElement.style.backgroundColor = '#2d3748';
+                            block.parentElement.style.padding = '1rem';
+                            block.parentElement.style.borderRadius = '0.5rem';
+                            block.parentElement.style.overflow = 'auto';
+                        }
+                    }
+                });
+            }
+            
+            console.log('SimpleSyntaxHighlighter: Completed highlighting, highlighted', highlightedCount, 'blocks');
         } catch (error) {
             console.error('SimpleSyntaxHighlighter: Error during highlighting:', error);
         }
