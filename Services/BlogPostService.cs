@@ -28,7 +28,7 @@ public class BlogPostService
 
         // For now, we'll manually list the posts. In a future iteration, 
         // this could be automated by reading a manifest file
-        var postSlugs = new[] { "welcome", "blazor-static-sites" };
+        var postSlugs = new[] { "welcome", "blazor-static-sites", "creating-dynamic-blog-posts" };
 
         foreach (var slug in postSlugs)
         {
