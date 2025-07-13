@@ -4,7 +4,7 @@ Ein moderner Tech Blog erstellt mit Blazor WebAssembly und gehostet auf GitHub P
 
 ## 🚀 Technologie-Stack
 
-- **Frontend**: Blazor WebAssembly (.NET 8)
+- **Frontend**: Blazor WebAssembly (.NET 9)
 - **Hosting**: GitHub Pages
 - **CI/CD**: GitHub Actions
 - **Styling**: Bootstrap + Custom CSS mit modernen Gradients
@@ -31,7 +31,7 @@ Ein moderner Tech Blog erstellt mit Blazor WebAssembly und gehostet auf GitHub P
 ## 🛠️ Entwicklung
 
 ### Voraussetzungen
-- .NET 8 SDK
+- .NET 9 SDK
 - Git
 
 ### Lokale Entwicklung
