@@ -9,16 +9,11 @@ namespace TechBlog.Services;
 public class BlogPostService
 {
     private readonly HttpClient _httpClient;
-    private readonly MarkdownPipeline _markdownPipeline;
     private List<BlogPost>? _cachedPosts;
 
     public BlogPostService(HttpClient httpClient)
     {
         _httpClient = httpClient;
-        _markdownPipeline = new MarkdownPipelineBuilder()
-            .UseAdvancedExtensions()
-            .UseSyntaxHighlighting()
-            .Build();
     }
 
     public async Task<List<BlogPost>> GetAllPostsAsync()
@@ -87,7 +82,14 @@ public class BlogPostService
         var cleanedMarkdown = RemoveFirstH1Heading(contentMarkdown);
 
         var metadata = ParseFrontMatter(frontMatterYaml);
-        var htmlContent = Markdown.ToHtml(cleanedMarkdown, _markdownPipeline);
+        
+        // MarkdownMonster-style configuration: inline pipeline creation with common extensions
+        var pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .UseSyntaxHighlighting()
+            .Build();
+            
+        var htmlContent = Markdown.ToHtml(cleanedMarkdown, pipeline);
 
         return new BlogPost
         {
