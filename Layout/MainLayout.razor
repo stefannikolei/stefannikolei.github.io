@@ -1,0 +1,23 @@
+﻿@inherits LayoutComponentBase
+<div class="modern-layout">
+    <header class="modern-header">
+        <NavMenu />
+    </header>
+
+    <main class="modern-main">
+        <div class="container">
+            @Body
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="container">
+            <p>&copy; 2025 Stefan Nikolei. Built with Blazor WebAssembly.</p>
+            <div class="footer-links">
+                <a href="https://github.com/stefannikolei" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </footer>
+</div>
