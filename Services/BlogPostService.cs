@@ -82,8 +82,12 @@ public class BlogPostService
         var frontMatterYaml = match.Groups[1].Value;
         var contentMarkdown = match.Groups[2].Value;
 
+        // Remove the first H1 heading from markdown content to avoid duplication
+        // since we already display the title from front matter metadata
+        var cleanedMarkdown = RemoveFirstH1Heading(contentMarkdown);
+
         var metadata = ParseFrontMatter(frontMatterYaml);
-        var htmlContent = Markdown.ToHtml(contentMarkdown, _markdownPipeline);
+        var htmlContent = Markdown.ToHtml(cleanedMarkdown, _markdownPipeline);
 
         return new BlogPost
         {
@@ -152,6 +156,45 @@ public class BlogPostService
         }
 
         return metadata;
+    }
+
+    private string RemoveFirstH1Heading(string markdownContent)
+    {
+        // Remove the first H1 heading (# ) only if it appears at the beginning of the content
+        // This prevents duplicate headings since we display the title from front matter
+        var lines = markdownContent.Split('\n');
+        var resultLines = new List<string>();
+        bool contentStarted = false;
+
+        foreach (var line in lines)
+        {
+            var trimmedLine = line.Trim();
+            
+            // If we haven't found any content yet
+            if (!contentStarted)
+            {
+                // Skip empty lines at the beginning
+                if (string.IsNullOrWhiteSpace(trimmedLine))
+                {
+                    resultLines.Add(line);
+                    continue;
+                }
+                
+                // If the first non-empty line is an H1 heading, skip it
+                if (trimmedLine.StartsWith("# "))
+                {
+                    contentStarted = true;
+                    continue;
+                }
+                
+                // If the first non-empty line is not an H1, mark content as started
+                contentStarted = true;
+            }
+            
+            resultLines.Add(line);
+        }
+
+        return string.Join('\n', resultLines);
     }
 
     public void ClearCache()
