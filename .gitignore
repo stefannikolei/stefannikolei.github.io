@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.cache
+*.log
+dist/
+publish/
+wwwroot/css/site.css.map
+appsettings.json
+appsettings.*.json
+*.tmp

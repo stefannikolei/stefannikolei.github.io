@@ -1,0 +1,81 @@
+@page "/blog"
+
+<PageTitle>Blog Posts - Stefan Nikolei Tech Blog</PageTitle>
+
+<h1>Blog Posts</h1>
+
+<div class="blog-posts">
+    <article class="blog-post">
+        <h2><a href="/blog/welcome">Willkommen zu meinem neuen Blog</a></h2>
+        <p class="post-meta">13. Juli 2025 | Kategorie: Allgemein</p>
+        <p class="post-excerpt">
+            Dies ist mein erster Blog Post. Hier werde ich regelmäßig über verschiedene Technologie-Themen schreiben, 
+            meine Erfahrungen teilen und interessante Projekte vorstellen. Bleiben Sie dran für spannende Inhalte 
+            rund um Webentwicklung, .NET, und moderne Technologien.
+        </p>
+        <a href="/blog/welcome" class="read-more">Weiterlesen →</a>
+    </article>
+    
+    <article class="blog-post">
+        <h2><a href="/blog/blazor-static-sites">Blazor für statische Websites</a></h2>
+        <p class="post-meta">13. Juli 2025 | Kategorie: Blazor, .NET</p>
+        <p class="post-excerpt">
+            Warum Blazor WebAssembly eine interessante Option für statische Websites wie Blogs sein kann. 
+            In diesem Post erkläre ich die Vorteile und zeige, wie sich ein Blog mit Blazor und GitHub Pages 
+            realisieren lässt.
+        </p>
+        <a href="/blog/blazor-static-sites" class="read-more">Weiterlesen →</a>
+    </article>
+</div>
+
+<style>
+    .blog-posts {
+        margin-top: 2rem;
+    }
+    
+    .blog-post {
+        border-bottom: 2px solid #e9ecef;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+    }
+    
+    .blog-post:last-child {
+        border-bottom: none;
+    }
+    
+    .blog-post h2 {
+        margin-bottom: 0.5rem;
+    }
+    
+    .blog-post h2 a {
+        color: #343a40;
+        text-decoration: none;
+    }
+    
+    .blog-post h2 a:hover {
+        color: #007bff;
+        text-decoration: underline;
+    }
+    
+    .post-meta {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        font-style: italic;
+    }
+    
+    .post-excerpt {
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .read-more {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .read-more:hover {
+        text-decoration: underline;
+    }
+</style>
