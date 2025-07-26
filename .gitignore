@@ -11,3 +11,4 @@ wwwroot/css/site.css.map
 appsettings.json
 appsettings.*.json
 *.tmp
+.idea

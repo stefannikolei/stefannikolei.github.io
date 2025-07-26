@@ -4,6 +4,9 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Blog Post Source Generator Konfiguration -->
+    <BlogPostsPath>wwwroot/Content/BlogPosts</BlogPostsPath>
+    <BlogPostsExtension>.md</BlogPostsExtension>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="wwwroot/Content/BlogPosts/*.md" />
+    <!-- Alle Markdown-Dateien im wwwroot Bereich für Source Generator -->
+    <AdditionalFiles Include="wwwroot/**/*.md" />
   </ItemGroup>
 
 </Project>

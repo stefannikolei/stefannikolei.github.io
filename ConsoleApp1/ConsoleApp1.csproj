@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <!-- Blog Post Source Generator Konfiguration -->
+        <BlogPostsPath>wwwroot/Content/BlogPosts</BlogPostsPath>
+        <BlogPostsExtension>.md</BlogPostsExtension>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../TechBlog.SourceGen/TechBlog.SourceGen.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <!-- Alle Markdown-Dateien im wwwroot Bereich für Source Generator -->
+        <AdditionalFiles Include="wwwroot/**/*.md" />
+    </ItemGroup>
+
+</Project>

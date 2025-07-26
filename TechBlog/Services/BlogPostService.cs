@@ -53,7 +53,7 @@ public class BlogPostService
         {
             try
             {
-                var post = await GetPostAsync(postMeta.Slug);
+                var post = await GetPostAsync(postMeta.FileName);
                 if (post != null)
                 {
                     posts.Add(post);
@@ -61,7 +61,7 @@ public class BlogPostService
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading post {postMeta.Slug}: {ex.Message}");
+                Console.WriteLine($"Error loading post {postMeta.FileName}: {ex.Message}");
             }
         }
 
@@ -77,6 +77,36 @@ public class BlogPostService
     public List<BlogPostMeta> GetAllPostMetadata()
     {
         return BlogPostList.All.ToList();
+    }
+
+    /// <summary>
+    /// Gibt eine paginierte Liste von Blog Posts zurück.
+    /// </summary>
+    /// <param name="page">Die Seitennummer (1-basiert)</param>
+    /// <param name="pageSize">Anzahl der Posts pro Seite</param>
+    /// <returns>Paginierte Blog Posts</returns>
+    public async Task<PaginatedBlogPosts> GetPaginatedPostsAsync(int page = 1, int pageSize = 5)
+    {
+        var allPosts = await GetAllPostsAsync();
+        var totalPosts = allPosts.Count;
+        var totalPages = (int)Math.Ceiling((double)totalPosts / pageSize);
+        
+        // Sicherstellen, dass die Seitennummer gültig ist
+        page = Math.Max(1, Math.Min(page, totalPages));
+        
+        var skip = (page - 1) * pageSize;
+        var posts = allPosts.Skip(skip).Take(pageSize).ToList();
+        
+        return new PaginatedBlogPosts
+        {
+            Posts = posts,
+            CurrentPage = page,
+            TotalPages = totalPages,
+            TotalPosts = totalPosts,
+            PageSize = pageSize,
+            HasPreviousPage = page > 1,
+            HasNextPage = page < totalPages
+        };
     }
 
     public async Task<BlogPost?> GetPostAsync(string slug)

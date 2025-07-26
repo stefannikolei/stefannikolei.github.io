@@ -1,5 +1,6 @@
 <Solution>
+  <Project Path="ConsoleApp1\ConsoleApp1.csproj" Type="Classic C#" />
   <Project Path="TechBlog.SourceGen\TechBlog.SourceGen.csproj" Type="Classic C#" />
-  <Project Path="TechBlog/TechBlog.csproj" />
   <Project Path="TechBlog.Tests/TechBlog.Tests.csproj" />
+  <Project Path="TechBlog/TechBlog.csproj" />
 </Solution>

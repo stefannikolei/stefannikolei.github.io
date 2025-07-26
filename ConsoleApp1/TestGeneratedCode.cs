@@ -12,7 +12,7 @@ public static class TestGeneratedCode
         
         foreach (var post in allPosts)
         {
-            Console.WriteLine($"- {post.Title} ({post.Slug}) - {post.Date:yyyy-MM-dd}");
+            Console.WriteLine($"- {post.Title} ({post.FileName}) - {post.Date:yyyy-MM-dd}");
         }
     }
 }

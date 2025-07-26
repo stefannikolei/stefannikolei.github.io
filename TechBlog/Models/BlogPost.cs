@@ -19,3 +19,14 @@ public class BlogPostMetadata
     public string? Summary { get; set; }
     public int ReadingTimeMinutes { get; set; } = 3;
 }
+
+public class PaginatedBlogPosts
+{
+    public List<BlogPost> Posts { get; set; } = new();
+    public int CurrentPage { get; set; }
+    public int TotalPages { get; set; }
+    public int TotalPosts { get; set; }
+    public int PageSize { get; set; }
+    public bool HasPreviousPage { get; set; }
+    public bool HasNextPage { get; set; }
+}

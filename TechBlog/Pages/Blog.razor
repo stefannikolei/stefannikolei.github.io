@@ -1,5 +1,7 @@
 @page "/blog"
+@page "/blog/{page:int?}"
 @inject BlogPostService BlogPostService
+@inject NavigationManager Navigation
 
 <PageTitle>Blog Posts - Stefan Nikolei Tech Blog</PageTitle>
 
@@ -8,13 +10,13 @@
     <p>Entdecken Sie meine neuesten Artikel über Technologie, Softwareentwicklung und moderne Web-Technologien.</p>
 </div>
 
-@if (posts == null)
+@if (paginatedPosts == null)
 {
     <div class="loading">
         <p>Lade Blog Posts...</p>
     </div>
 }
-else if (!posts.Any())
+else if (!paginatedPosts.Posts.Any())
 {
     <div class="no-posts">
         <p>Keine Blog Posts gefunden.</p>
@@ -23,7 +25,7 @@ else if (!posts.Any())
 else
 {
     <div class="blog-posts-grid">
-        @foreach (var post in posts)
+        @foreach (var post in paginatedPosts.Posts)
         {
             <article class="post-preview">
                 <div class="post-header">
@@ -49,21 +51,96 @@ else
             </article>
         }
     </div>
+
+    <!-- Pagination -->
+    @if (paginatedPosts.TotalPages > 1)
+    {
+        <nav class="pagination-nav" aria-label="Blog Posts Pagination">
+            <div class="pagination-info">
+                <span>Seite @paginatedPosts.CurrentPage von @paginatedPosts.TotalPages (@paginatedPosts.TotalPosts Posts insgesamt)</span>
+            </div>
+            <div class="pagination-buttons">
+                @if (paginatedPosts.HasPreviousPage)
+                {
+                    @if (paginatedPosts.CurrentPage - 1 == 1)
+                    {
+                        <a href="/blog" class="btn btn-secondary pagination-btn">
+                            ← Vorherige
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/blog/@(paginatedPosts.CurrentPage - 1)" class="btn btn-secondary pagination-btn">
+                            ← Vorherige
+                        </a>
+                    }
+                }
+                
+                @for (int i = Math.Max(1, paginatedPosts.CurrentPage - 2); i <= Math.Min(paginatedPosts.TotalPages, paginatedPosts.CurrentPage + 2); i++)
+                {
+                    @if (i == paginatedPosts.CurrentPage)
+                    {
+                        <span class="btn btn-primary pagination-btn current-page">@i</span>
+                    }
+                    else if (i == 1)
+                    {
+                        <a href="/blog" class="btn btn-secondary pagination-btn">@i</a>
+                    }
+                    else
+                    {
+                        <a href="/blog/@i" class="btn btn-secondary pagination-btn">@i</a>
+                    }
+                }
+                
+                @if (paginatedPosts.HasNextPage)
+                {
+                    <a href="/blog/@(paginatedPosts.CurrentPage + 1)" class="btn btn-secondary pagination-btn">
+                        Nächste →
+                    </a>
+                }
+            </div>
+        </nav>
+    }
 }
 
 @code {
-    private List<BlogPost>? posts;
+    [Parameter] public int? Page { get; set; }
+    
+    private PaginatedBlogPosts? paginatedPosts;
+    private const int PageSize = 5;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadPosts();
+    }
+
+    private async Task LoadPosts()
     {
         try
         {
-            posts = await BlogPostService.GetAllPostsAsync();
+            var currentPage = Page ?? 1;
+            paginatedPosts = await BlogPostService.GetPaginatedPostsAsync(currentPage, PageSize);
+            
+            // Redirect zur ersten Seite wenn die angeforderte Seite nicht existiert
+            if (currentPage > paginatedPosts.TotalPages && paginatedPosts.TotalPages > 0)
+            {
+                Navigation.NavigateTo("/blog/1", replace: true);
+                return;
+            }
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading blog posts: {ex.Message}");
-            posts = new List<BlogPost>();
+            paginatedPosts = new PaginatedBlogPosts
+            {
+                Posts = new List<BlogPost>(),
+                CurrentPage = 1,
+                TotalPages = 0,
+                TotalPosts = 0,
+                PageSize = PageSize,
+                HasPreviousPage = false,
+                HasNextPage = false
+            };
         }
     }
 }
