@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using Markdig;
 using TechBlog.Models;
+using TechBlog.Generated;
 
 namespace TechBlog.Services;
 
@@ -47,15 +48,12 @@ public class BlogPostService
 
         var posts = new List<BlogPost>();
 
-        // For now, we'll manually list the posts. In a future iteration, 
-        // this could be automated by reading a manifest file
-        var postSlugs = new[] { "welcome", "blazor-static-sites", "creating-dynamic-blog-posts", "csharp-code-beispiele" };
-
-        foreach (var slug in postSlugs)
+        // Verwende den Output des Source Generators anstatt manueller Liste
+        foreach (var postMeta in BlogPostList.All)
         {
             try
             {
-                var post = await GetPostAsync(slug);
+                var post = await GetPostAsync(postMeta.Slug);
                 if (post != null)
                 {
                     posts.Add(post);
@@ -63,15 +61,22 @@ public class BlogPostService
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error loading post {slug}: {ex.Message}");
+                Console.WriteLine($"Error loading post {postMeta.Slug}: {ex.Message}");
             }
         }
 
-        // Sort by publish date descending
-        posts.Sort((a, b) => b.PublishDate.CompareTo(a.PublishDate));
-        
+        // Posts sind bereits vom Source Generator sortiert (nach Datum absteigend)
         _cachedPosts = posts;
         return posts;
+    }
+
+    /// <summary>
+    /// Gibt nur die Metadaten aller Posts zurück, ohne den vollständigen Inhalt zu laden.
+    /// Dies ist performanter für Übersichtsseiten.
+    /// </summary>
+    public List<BlogPostMeta> GetAllPostMetadata()
+    {
+        return BlogPostList.All.ToList();
     }
 
     public async Task<BlogPost?> GetPostAsync(string slug)
@@ -222,4 +227,14 @@ public class BlogPostService
     {
         _cachedPosts = null;
     }
+}
+
+// Helper class for YAML front matter parsing
+public class BlogPostMetadata
+{
+    public string Title { get; set; } = "";
+    public DateTime PublishDate { get; set; }
+    public List<string> Tags { get; set; } = new();
+    public string Summary { get; set; } = "";
+    public int ReadingTimeMinutes { get; set; }
 }

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="TechBlog.SourceGen\TechBlog.SourceGen.csproj" Type="Classic C#" />
+  <Project Path="TechBlog/TechBlog.csproj" />
+  <Project Path="TechBlog.Tests/TechBlog.Tests.csproj" />
+</Solution>
