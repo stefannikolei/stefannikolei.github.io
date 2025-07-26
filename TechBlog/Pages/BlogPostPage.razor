@@ -1,4 +1,4 @@
-@page "/blog/{slug}"
+@page "/{slug}"
 @inject BlogPostService BlogPostService
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
@@ -10,7 +10,7 @@
         <div class="card">
             <h1>🚫 Post nicht gefunden</h1>
             <p>Der angeforderte Blog Post konnte nicht gefunden werden.</p>
-            <a href="/blog" class="btn btn-outline">← Zurück zur Blog-Übersicht</a>
+            <a href="/" class="btn btn-outline">← Zurück zur Startseite</a>
         </div>
     </div>
 }
@@ -46,7 +46,7 @@ else if (post != null)
             </div>
             
             <footer class="post-footer">
-                <a href="/blog" class="btn btn-outline">← Zurück zur Blog-Übersicht</a>
+                <a href="/" class="btn btn-outline">← Zurück zur Startseite</a>
             </footer>
         </article>
     </div>

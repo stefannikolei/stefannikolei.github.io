@@ -1,6 +1,9 @@
 ﻿@page "/"
+@page "/home"
 
 <PageTitle>Home - Stefan Nikolei Tech Blog</PageTitle>
+
+@inject BlogPostService BlogPostService
 
 <div class="hero-card">
     <h1>Willkommen zu meinem Tech Blog</h1>
@@ -8,23 +11,68 @@
 </div>
 
 <div class="recent-posts-section">
-    <h2>Neueste Blog Posts</h2>
-    
-    <div class="post-preview">
-        <h3><a href="/blog/welcome">Willkommen zu meinem neuen Blog</a></h3>
-        <div class="post-meta">📅 13. Juli 2025 • ⏱️ 3 Min. Lesezeit</div>
-        <div class="post-content">
-            <p>Dies ist mein erster Blog Post. Hier werde ich regelmäßig über verschiedene Technologie-Themen schreiben und meine Erfahrungen aus der Softwareentwicklung teilen...</p>
+    @if (blogPosts == null)
+    {
+        <div class="loading">Lade Blog Posts...</div>
+    }
+    else if (!blogPosts.Any())
+    {
+        <div class="no-posts">Keine Blog Posts gefunden.</div>
+    }
+    else
+    {
+        @foreach (var post in blogPosts)
+        {
+            <div class="post-preview">
+                <h3><a href="/@post.Slug">@post.Title</a></h3>
+                <div class="post-meta">📅 @post.PublishDate.ToString("dd. MMMM yyyy") • ⏱️ @post.ReadingTimeMinutes Min. Lesezeit</div>
+                <div class="post-content">
+                    <p>@post.Summary</p>
+                </div>
+                <a href="/@post.Slug" class="btn btn-outline">Weiterlesen</a>
+            </div>
+        }
+        <div class="pagination">
+            <button class="btn" @onclick="PreviousPage" disabled="@(currentPage == 1)">« Vorherige</button>
+            <span>Seite @currentPage von @totalPages</span>
+            <button class="btn" @onclick="NextPage" disabled="@(currentPage == totalPages)">Nächste »</button>
         </div>
-        <a href="/blog/welcome" class="btn btn-outline">Weiterlesen</a>
-    </div>
-    
-    <div class="post-preview">
-        <h3><a href="/blog/blazor-static-sites">Blazor für statische Websites</a></h3>
-        <div class="post-meta">📅 13. Juli 2025 • ⏱️ 5 Min. Lesezeit</div>
-        <div class="post-content">
-            <p>Warum Blazor WebAssembly eine interessante Option für statische Websites wie Blogs sein kann. Eine Analyse der Vor- und Nachteile moderner Single Page Applications...</p>
-        </div>
-        <a href="/blog/blazor-static-sites" class="btn btn-outline">Weiterlesen</a>
-    </div>
+    }
 </div>
+
+@code {
+    private List<BlogPost>? blogPosts;
+    private int currentPage = 1;
+    private int pageSize = 5;
+    private int totalPages = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadPosts();
+    }
+
+    private async Task LoadPosts()
+    {
+        var paginated = await BlogPostService.GetPaginatedPostsAsync(currentPage, pageSize);
+        blogPosts = paginated.Posts;
+        totalPages = paginated.TotalPages;
+    }
+
+    private async Task PreviousPage()
+    {
+        if (currentPage > 1)
+        {
+            currentPage--;
+            await LoadPosts();
+        }
+    }
+
+    private async Task NextPage()
+    {
+        if (currentPage < totalPages)
+        {
+            currentPage++;
+            await LoadPosts();
+        }
+    }
+}
