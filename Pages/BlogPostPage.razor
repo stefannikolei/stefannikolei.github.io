@@ -146,13 +146,17 @@ else if (post != null)
         border-radius: 0.5rem;
     }
     
+    /* Code blocks styling */
+    .post-content pre {
+        margin: 1.5rem 0;
+        border-radius: 0.75rem;
+        overflow-x: auto;
+    }
+    
     /* Style for non-highlighted code blocks only */
     .post-content pre:not([class*="language-"]) {
         background: rgba(0, 0, 0, 0.05);
         padding: 1.5rem;
-        border-radius: 0.75rem;
-        overflow-x: auto;
-        margin: 1.5rem 0;
         font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         font-size: 0.9rem;
         line-height: 1.4;
@@ -167,14 +171,15 @@ else if (post != null)
         font-size: 0.9em;
     }
     
-    /* Ensure highlighted code blocks use Prism styling */
+    /* Prism.js syntax highlighted code blocks */
     .post-content pre[class*="language-"] {
-        /* Let Prism handle all styling for highlighted code blocks */
-        margin: 1.5rem 0;
+        /* Let Prism handle the styling, but ensure proper spacing */
+        margin: 1.5rem 0 !important;
+        border-radius: 0.75rem !important;
     }
     
     .post-content pre[class*="language-"] code {
-        /* Reset any overrides for highlighted code */
+        /* Ensure highlighted code uses Prism styling */
         background: none !important;
         padding: 0 !important;
         border-radius: 0 !important;
@@ -263,7 +268,7 @@ else if (post != null)
         {
             // Add a small delay to ensure DOM is fully ready
             await Task.Delay(100);
-            await JSRuntime.InvokeVoidAsync("SimpleSyntaxHighlighter.highlightAll");
+            await JSRuntime.InvokeVoidAsync("Prism.highlightAll");
         }
         catch (Exception ex)
         {
