@@ -40,7 +40,7 @@ jobs:
 
     - name: Upload artifact for main deployment
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v5
       with:
         path: dist/wwwroot
 
